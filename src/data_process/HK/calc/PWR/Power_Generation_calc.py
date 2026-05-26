@@ -89,6 +89,44 @@ def max_gene_estimate(SAP_generation_px,
         "est_max_pwr_mx":max_gene_mx,
         "est_max_pwr_my":max_gene_my
     }
+
+# 3. ある時刻での太陽光での発電量とアルベドによる発電量を求める関数
+def sunlight_albedo_generation(SAP_generation_px, 
+                                SAP_generation_py, 
+                                SAP_generation_pz, 
+                                SAP_generation_mx, 
+                                SAP_generation_my, 
+                                sun_x, 
+                                sun_y, 
+                                sun_z):
+    
+    sunlight_total = 0 #初期化
+    albedo_total = 0 #初期化
+
+    if sun_x >= 0: # 太陽がpx面方向に当たっている場合
+        sunlight_total = sunlight_total + SAP_generation_px
+        albedo_total = albedo_total + SAP_generation_mx
+    else: #mx面方向に当たっている場合
+        sunlight_total = sunlight_total + SAP_generation_mx
+        albedo_total = albedo_total + SAP_generation_px
+    
+    if sun_y >= 0: # 太陽がpy面方向に当たっている場合
+        sunlight_total = sunlight_total + SAP_generation_py
+        albedo_total = albedo_total + SAP_generation_my
+    else: #my面方向に当たっている場合
+        sunlight_total = sunlight_total + SAP_generation_my
+        albedo_total = albedo_total + SAP_generation_py
+    
+    if sun_z >= 0: # 太陽がpz面方向に当たっている場合
+        sunlight_total = sunlight_total + SAP_generation_pz
+    else: #my面方向に当たっている場合
+        albedo_total = albedo_total + SAP_generation_pz
+    
+    # 辞書で返す（ヘッダー付き）
+    return {
+        "pwr_sunlight_total":sunlight_total,
+        "pwr_albedo_total":albedo_total
+    }
 #----------------------------------------------------------------------------------------
 # main
 
@@ -179,6 +217,36 @@ def SAP_calc_result(extracted_list):
     org.dict_append("est_max_pwr_pz", est_pz_list, extracted_list)
     org.dict_append("est_max_pwr_mx", est_mx_list, extracted_list)
     org.dict_append("est_max_pwr_my", est_my_list, extracted_list)
+    #-----------------------------------------------------------------------
+    # 3.の関数
+
+    # 値格納用のリストの作成
+    sunlight_total_list = []
+    albedo_list = []
+    
+    # 発電量の計算
+    for SAP_generation_px, SAP_generation_py, SAP_generation_pz, SAP_generation_mx, SAP_generation_my, sun_x, sun_y, sun_z in zip(
+        extracted_list["pwr_sap_px"],
+        extracted_list["pwr_sap_py"],
+        extracted_list["pwr_sap_pz"],
+        extracted_list["pwr_sap_mx"],
+        extracted_list["pwr_sap_my"],
+        extracted_list["sunx"],
+        extracted_list["suny"],
+        extracted_list["sunz"]
+    ):
+        
+        result = sunlight_albedo_generation(
+            SAP_generation_px, SAP_generation_py, SAP_generation_pz, SAP_generation_mx, SAP_generation_my, sun_x, sun_y, sun_z
+        )
+
+        # リストに値を格納
+        sunlight_total_list.append(result["pwr_sunlight_total"])
+        albedo_list.append(result["pwr_albedo_total"])
+        
+    # extracted_listに列を追加
+    org.dict_append("pwr_sunlight_total", sunlight_total_list, extracted_list)
+    org.dict_append("pwr_albedo_total", albedo_list, extracted_list)
 
     return extracted_list
 

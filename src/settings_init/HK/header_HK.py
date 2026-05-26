@@ -51,6 +51,8 @@ header_map = {
             "pwr_mtqa_total":"pwr_mtqa_total [mW]",
             "pwr_mtqo_total":"pwr_mtqo_total [mW]",
             "pwr_sap_total":"pwr_sap_total [mW]",
+            "pwr_sunlight_total":"pwr_sunlight_total [mW]",
+            "pwr_albedo_total":"pwr_albedo_total [mW]",
             "Battery_charge":"Battery_charge [mW]",
             "Bus_consumption":"Bus_consumption [mW]",
             "budget_check":"budget_check [mW]",
@@ -91,7 +93,9 @@ columns_gene = [# 時刻関係
                "est_max_pwr_my", # my面に正面から太陽が当たったときの発電量の概算結果, 発電量がcos則に従うこと・SUNSの値が正確であることを仮定
                "pwr_sap_P",
                "pwr_sap_M",
-               "pwr_sap_total",
+               "pwr_sap_total", # 合計発電量
+               "pwr_sunlight_total", # 太陽光による合計発電量
+               "pwr_albedo_total", # 推定アルベドによる合計発電量
                # 温度関係
                "temp_strmx",
                "temp_strmy",
