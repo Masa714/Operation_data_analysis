@@ -68,16 +68,14 @@ def max_gene_estimate(SAP_generation_px,
         max_gene_px = SAP_generation_px * inv_sunx
         max_gene_mx = 0
     else:# 太陽ベクトルx軸が負なら、mx面で発電
-        max_gene_px = 0 
         max_gene_mx = -SAP_generation_mx * inv_sunx
-
+        max_gene_px = 0
     if inv_suny > 0: # 太陽ベクトルy軸が正なら、py面で発電
         max_gene_py = SAP_generation_py * inv_suny
         max_gene_my = 0
     else:# 太陽ベクトルy軸が負なら、my面で発電
-        max_gene_py = 0 
         max_gene_my = -SAP_generation_my * inv_suny
-
+        max_gene_py = 0
     if inv_sunx > 0: # 太陽ベクトルx軸が正なら、pz面で発電
         max_gene_pz = SAP_generation_pz * inv_sunz
     else:# 太陽ベクトルx軸が負なら、発電無し

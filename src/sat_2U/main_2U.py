@@ -43,11 +43,11 @@ def analysis_2U(extracted_list):
             
             # PWR系
             # SAP関係のcsvファイル出力
-            output.output_csv_excel(HK_data, header_list=head_HK.columns_gene, use_utc_name=True, base_name=out_HK.Gene_name_2U)
+            output.output_csv_excel(HK_data, header_list=head_HK.columns_gene, use_utc_name=True, base_name=out_HK.Gene_name_2U, header_map=head_HK.header_map)
             # バッテリー関係のcsvファイル出力
-            output.output_csv_excel(HK_data, header_list=head_HK.columns_BAT, use_utc_name=True, base_name=out_HK.BAT_name_2U)
+            output.output_csv_excel(HK_data, header_list=head_HK.columns_BAT, use_utc_name=True, base_name=out_HK.BAT_name_2U, header_map=head_HK.header_map)
             # 電力収支関係のcsvファイル出力
-            output.output_csv_excel(HK_data, header_list=head_HK.columns_budget, use_utc_name=True, base_name=out_HK.budget_name_2U)
+            output.output_csv_excel(HK_data, header_list=head_HK.columns_budget, use_utc_name=True, base_name=out_HK.budget_name_2U, header_map=head_HK.header_map)
 
             # 3. plot
             # PWR系

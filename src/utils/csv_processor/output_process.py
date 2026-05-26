@@ -40,7 +40,7 @@ def create_filename_with_utc(original_file_name, merged_list):
     return new_name
 
 # CSVデータを整理・加工して、条件ごとに必要な形でCSVやExcelに出力するデータ処理のベースコード
-def export_data(name, header_list, data, use_utc_name=False, base_name=None):
+def export_data(name, header_list, data, use_utc_name=False, base_name=None, header_map=None):
     
     # ======================
     # ファイル名決定
@@ -81,6 +81,11 @@ def export_data(name, header_list, data, use_utc_name=False, base_name=None):
         headers = list(data.keys())
     else:
         headers = [col for col in header_list if col in data]
+    # 表示用ヘッダー作成    
+    if header_map:
+        display_headers = [header_map.get(col, col) for col in headers]
+    else:
+        display_headers = headers
 
     # ======================
     # 行数
@@ -90,23 +95,23 @@ def export_data(name, header_list, data, use_utc_name=False, base_name=None):
     # ======================
     # 行データ作成
     # ======================
+    
+    # 行データ
     rows = []
     for i in range(num_rows):
         row = {}
-        for key in headers:
+        for key, disp_key in zip(headers, display_headers):
             values = data.get(key, [])
-            row[key] = values[i] if i < len(values) else ""
+            row[disp_key] = values[i] if i < len(values) else ""
         rows.append(row)
 
-    # ======================
     # CSV出力
-    # ======================
     csv_file = output_dir / file_name_csv
-
     with open(csv_file, "w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.DictWriter(f, fieldnames=headers)
+        writer = csv.DictWriter(f, fieldnames=display_headers)
         writer.writeheader()
         writer.writerows(rows)
+
 
     # ======================
     # Excel出力
@@ -118,7 +123,7 @@ def export_data(name, header_list, data, use_utc_name=False, base_name=None):
 
 # 実際に値をcsv, xlsxで出力する関数
 # 引数：データリスト, 出力するヘッダーのリスト, 名前の前に一番古いデータのutc時刻を付けるか, 任意で付けたい名前 (inputのcsvと同じ名前にしたいときはNone)
-def output_csv_excel(all_data_list, header_list=None, use_utc_name=False, base_name=None):
+def output_csv_excel(all_data_list, header_list=None, use_utc_name=False, base_name=None, header_map=None):
 
     # ======================
     # ✅ パターン①：複数ファイル（list）
@@ -129,10 +134,11 @@ def output_csv_excel(all_data_list, header_list=None, use_utc_name=False, base_n
 
             export_data(
                 name=item["name"],
-                base_name=base_name,
                 header_list=header_list,
                 data=item["data"],
-                use_utc_name=use_utc_name
+                use_utc_name=use_utc_name,
+                base_name=base_name,
+                header_map=header_map
             )
 
     # ======================
@@ -142,8 +148,9 @@ def output_csv_excel(all_data_list, header_list=None, use_utc_name=False, base_n
 
         export_data(
             name="single_file",  # ← 必要ならここ調整
-            base_name=base_name,
             header_list=header_list,
             data=all_data_list,
-            use_utc_name=use_utc_name
+            use_utc_name=use_utc_name,
+            base_name=base_name,
+            header_map=header_map
         )
