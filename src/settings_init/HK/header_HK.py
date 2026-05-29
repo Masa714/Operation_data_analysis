@@ -29,6 +29,7 @@ header_map = {
             "vols_sap1":"vols_sap1 [V]",
             "vols_sap2":"vols_sap2 [V]",
             "vols_2ndbat":"vols_2ndbat [V]",
+            "est_true_vols_2ndbat":"est_true_vols_2ndbat [V]",
             "vols_bus":"vols_bus [V]",
             "pwr_sap_px":"pwr_sap_px [mW]",
             "pwr_sap_py":"pwr_sap_py [mW]",
@@ -117,6 +118,7 @@ columns_BAT = [# 時刻関係
               "curs_2ndbat",
               "curs_bus",
               "vols_2ndbat",
+              "est_true_vols_2ndbat", # 真のバッテリー電圧の推定値, MAGNARO-IIのHW的にvols_2ndbatではバス電圧を取ってしまっている
               "vols_bus",
               "Battery_charge",
               "pwr_sap_total",
