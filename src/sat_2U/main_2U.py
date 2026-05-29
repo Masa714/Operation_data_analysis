@@ -14,6 +14,7 @@ import src.data_process.HK.calc.PWR.Power_budget_calc as bud
 import src.data_process.HK.calc.PWR.Power_Generation_calc as PG
 import src.data_process.HK.plot.SAP_data_plot as SP
 import src.data_process.HK.plot.Battery_data_plot as Bp
+import src.settings_init.common_valiables as com_val
 #------------------------------------------------------
 # main
 
@@ -51,8 +52,8 @@ def analysis_2U(extracted_list):
 
             # 3. plot
             # PWR系
-            SP.sap_plot(HK_data) #SAP
-            Bp.BAT_plot(HK_data) # battery
-
+            if com_val.plot_enable != 0: # plot_enableが0でなければ描画
+                SP.sap_plot(HK_data) # SAP
+                Bp.BAT_plot(HK_data) # battery
 
 

@@ -23,6 +23,7 @@ UTC_time_sample_2U = "2026/05/25 02:45:14.990250" # OBCtimeをUTCに変換する
 non_float_header = ["OBC Time"] # floatに変換してほしくないものを記載 (時刻など)
 
 # プロットの設定(一般的なもの)
+plot_enable = 0 # 0：描画しない,  1：描画する
 utc_fontsize = 6 # 時刻歴の横軸メモリのフォントサイズ
 apply_time_condition = True # plot_timerangeを使用するかどうか True：使用する, False：使用しない
 plot_timerange = 100 # 時刻歴について、一番時刻が古いデータから何分間のデータをプロットするのか TLCとRTCのHKが混ざったときの対策 
