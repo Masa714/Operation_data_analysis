@@ -87,6 +87,20 @@ def export_data(name, header_list, data, use_utc_name=False, base_name=None, hea
     else:
         display_headers = headers
 
+    # debug
+    #print("header_map is:", header_map)
+    
+    #print("=== header_map is ===")
+    #print(header_map)
+
+    #print("=== headers ===")
+    #for h in headers:
+    #    print(f"[{h}]")
+
+    #print("=== mapping result ===")
+    #for h in headers:
+    #    print(h, "->", header_map.get(h, "❌ not found") if header_map else "header_map is None")
+
     # ======================
     # 行数
     # ======================
@@ -119,18 +133,19 @@ def export_data(name, header_list, data, use_utc_name=False, base_name=None, hea
     xlsx_file = output_dir / file_name_xlsx
 
     df = pd.DataFrame({key: data[key] for key in headers})
+    df.columns = display_headers
     df.to_excel(xlsx_file, index=False)
 
 # 実際に値をcsv, xlsxで出力する関数
 # 引数：データリスト, 出力するヘッダーのリスト, 名前の前に一番古いデータのutc時刻を付けるか, 任意で付けたい名前 (inputのcsvと同じ名前にしたいときはNone)
-def output_csv_excel(all_data_list, header_list=None, use_utc_name=False, base_name=None, header_map=None):
+def output_csv_excel(data, header_list=None, use_utc_name=False, base_name=None, header_map=None):
 
     # ======================
-    # ✅ パターン①：複数ファイル（list）
+    # ✅ パターン①：all_data_listから各ファイルを出力（list）
     # ======================
-    if isinstance(all_data_list, list):
+    if isinstance(data, list):
 
-        for item in all_data_list:
+        for item in data:
 
             export_data(
                 name=item["name"],
@@ -142,14 +157,14 @@ def output_csv_excel(all_data_list, header_list=None, use_utc_name=False, base_n
             )
 
     # ======================
-    # ✅ パターン②：単一ファイル（dict）
+    # ✅ パターン②：単一ファイルを抽出した後、様々なファイル出力を行う場合（nameなし・dataのみ格納されたdict）
     # ======================
-    elif isinstance(all_data_list, dict):
+    elif isinstance(data, dict):
 
         export_data(
             name="single_file",  # ← 必要ならここ調整
             header_list=header_list,
-            data=all_data_list,
+            data=data,
             use_utc_name=use_utc_name,
             base_name=base_name,
             header_map=header_map

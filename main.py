@@ -28,7 +28,7 @@ data_dir_2U = Path(__file__).resolve().parent/"data"/"Input"/"2U"
 all_list_1U = input.read_csv_and_add_utc(data_dir_1U, com_val.OBC_time_sample_1U, com_val.UTC_time_sample_1U)
 all_list_2U = input.read_csv_and_add_utc(data_dir_2U, com_val.OBC_time_sample_2U, com_val.UTC_time_sample_2U)
 
-# 作成したリストを再度出力 (csvとxlsx)
+# 作成したリストを各ファイルに分けて再度出力 (csvとxlsx)  ※これは単位がつかない
 output.output_csv_excel(all_list_1U, header_list=None, use_utc_name=False, base_name=None)
 output.output_csv_excel(all_list_2U, header_list=None, use_utc_name=False, base_name=None)
 
