@@ -31,7 +31,7 @@ def estimate_true_battery_voltage(curs_2ndbat, vols_2ndbat, resistance):
 #----------------------------------------------------------------
 # main
 
-# バッテリー関連の計算を行い, 結果を全てリストに格納する
+# バッテリー関連の計算を行い, 結果を全てリストに格納する (引数：dict, 定数)
 def BAT_calc_result(extracted_list, resistance):
     
     #------------------------------------------------
